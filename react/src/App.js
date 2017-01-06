@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Map, Marker} from 'google-maps-react'
+import {Map, Marker, InfoWindow} from 'google-maps-react'
 
 class App extends Component {
   render() {
@@ -134,13 +134,33 @@ class PositionList extends Component {
 }
 
 class MyMap extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeMarker: {},
+      selectedPlace: {},
+      showingInfoWindow: false
+    };
+    this.onMarkerClick = this.onMarkerClick.bind(this);
+  }
+
+  onMarkerClick(props, marker, e) {
+    console.log(props);
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+  }
+
   render() {
     var google = this.props.google;
     var positions = this.props.positions;
     var markers = positions.map((pos, index) => 
       <Marker key={index}
         name={pos.name}
-        position={{lat: pos.latitude, lng: pos.longitude}}>
+        position={{lat: pos.latitude, lng: pos.longitude}}
+        onClick={this.onMarkerClick}>
       </Marker>
       );
 
@@ -149,6 +169,14 @@ class MyMap extends Component {
           zoom={10} 
           className="myMap">
           {markers}
+
+           <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+              <div>
+                <h1>{this.state.selectedPlace.name}</h1>
+              </div>
+          </InfoWindow>
         </Map>
     );
   }
