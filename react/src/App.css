@@ -3,7 +3,6 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
@@ -17,6 +16,21 @@
 .App-intro {
   font-size: large;
 }
+
+div.mapContainer {
+  margin:20px;
+  display: flex;
+}
+
+.content {
+    display:inline-block;
+    vertical-align:top;
+    margin-left: 10px;
+}
+.side {
+  width: 10%;
+}
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
